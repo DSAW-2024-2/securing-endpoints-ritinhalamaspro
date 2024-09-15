@@ -19,14 +19,14 @@ router.post('/', (req, res) => {
 // Get User
 router.get('/:id', (req, res) => {
   const user = users.find(u => u.id === req.params.id);
-  if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+  if (!user) return res.status(404).json({ message: 'User not found' });
   res.json(user);
 });
 
 // Update User
 router.put('/:id', (req, res) => {
   const index = users.findIndex(u => u.id === req.params.id);
-  if (index === -1) return res.status(404).json({ message: 'Usuario no encontrado' });
+  if (index === -1) return res.status(404).json({ message: 'User not found' });
 
   users[index] = { id: req.params.id, ...req.body };
   res.json(users[index]);
@@ -35,10 +35,10 @@ router.put('/:id', (req, res) => {
 // Delete user
 router.delete('/:id', (req, res) => {
   const index = users.findIndex(u => u.id === req.params.id);
-  if (index === -1) return res.status(404).json({ message: 'Usuario no encontrado' });
+  if (index === -1) return res.status(404).json({ message: 'User not found' });
 
   users.splice(index, 1);
-  res.json({ message: 'Usuario eliminado' });
+  res.json({ message: 'User not found' });
 });
 
 module.exports = router;
