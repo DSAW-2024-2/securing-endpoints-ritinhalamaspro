@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-
 let users = [];
 
 // Get all users
@@ -9,7 +8,7 @@ router.get('/', (req, res) => {
   res.json(users);
 });
 
-// Crete User
+// Create User
 router.post('/', (req, res) => {
   const newUser = { id: Date.now().toString(), ...req.body };
   users.push(newUser);
@@ -38,7 +37,7 @@ router.delete('/:id', (req, res) => {
   if (index === -1) return res.status(404).json({ message: 'User not found' });
 
   users.splice(index, 1);
-  res.json({ message: 'User not found' });
+  res.status(204).send();
 });
 
 module.exports = router;
