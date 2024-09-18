@@ -1,23 +1,25 @@
 const express = require('express');
 const app = express();
-const usersRoutes = require('./routes/users');
+
+// Extract the router from users.js
+const { router: usersRoutes } = require('./routes/users');
 const productsRoutes = require('./routes/products');
 const ordersRoutes = require('./routes/orders');
 
 app.use(express.json()); // Middleware
 
-// Usa las rutas
+// Use the routes
 app.use('/users', usersRoutes);
 app.use('/products', productsRoutes);
 app.use('/orders', ordersRoutes);
 
-// Ruta no encontrada
+// Route not found
 app.use((req, res) => {
   res.status(404).json({ message: 'Path not found' });
 });
 
-// Inicializa el servidor
+// Initialize the server
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });

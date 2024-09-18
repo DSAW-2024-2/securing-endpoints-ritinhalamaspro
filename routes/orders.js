@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+// Import users and router
+const { users } = require('./users');
+
 let orders = [];
 
 // Get all orders
@@ -27,6 +30,12 @@ router.post('/', (req, res) => {
     const quantityAsNumber = parseInt(quantity, 10);
     if (isNaN(quantityAsNumber) || quantityAsNumber <= 0) {
         return res.status(400).json({ message: 'Quantity must be a positive integer' });
+    }
+
+    // Validation for userId existence in users
+    const userExists = users.find(u => u.id === userId);
+    if (!userExists) {
+        return res.status(400).json({ message: `User with ID ${userId} does not exist` });
     }
 
     const newOrder = { id, userId, productId, quantity, status };
