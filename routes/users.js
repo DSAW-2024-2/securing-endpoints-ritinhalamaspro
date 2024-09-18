@@ -9,7 +9,6 @@ router.get('/', (req, res) => {
 });
 
 // Create User
-// Create products
 router.post('/', (req, res) => {
   const { id, name, email, age } = req.body;
 
@@ -20,7 +19,7 @@ router.post('/', (req, res) => {
 
   // Validate ID
   const idAsNumber = parseInt(id, 10);
-  if (isNaN(idAsNumber) || idAsNumber <= 0 || products.some(p => p.id === id)) {
+  if (isNaN(idAsNumber) || idAsNumber <= 0 || users.some(p => p.id === id)) {
       return res.status(400).json({ message: 'ID must be a unique positive integer' });
   }
 
@@ -30,8 +29,8 @@ router.post('/', (req, res) => {
       return res.status(400).json({ message: 'age must be a non-negative number' });
   }
 
-  const newUser = { id, name, price, category };
-  products.push(newUser);
+  const newUser = { id, name, email, age };
+  users.push(newUser);
   res.status(201).json(newUser);
 });
 
@@ -57,13 +56,13 @@ router.put('/:id', (req, res) => {
       return res.status(400).json({ message: 'Invalid JSON format' });
   }
 
-  // Validate price
-  const ageAsNumber = parseInt(price);
+  // Validate age
+  const ageAsNumber = parseInt(age);
   if (isNaN(ageAsNumber) || ageAsNumber < 0) {
-      return res.status(400).json({ message: 'Price must be a non-negative number' });
+      return res.status(400).json({ message: 'Age must be a non-negative number' });
   }
 
-  users[userIndex] = { id: req.params.id, name, price, category };
+  users[userIndex] = { id: req.params.id, name, email, age };
   res.json(users[userIndex]);
 });
 
