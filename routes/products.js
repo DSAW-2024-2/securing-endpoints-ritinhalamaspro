@@ -18,15 +18,13 @@ router.post('/', (req, res) => {
     }
 
     // Validate ID
-    const idAsNumber = parseInt(id, 10);
-    if (isNaN(idAsNumber) || idAsNumber <= 0 || products.some(p => p.id === id)) {
+    if (!/^\d+$/.test(id) || parseInt(id, 10) <= 0 || products.some(p => p.id === id)) {
         return res.status(400).json({ message: 'ID must be a unique positive integer' });
     }
 
     // Validate price
-    const priceAsNumber = parseFloat(price);
-    if (isNaN(priceAsNumber) || priceAsNumber < 0) {
-        return res.status(400).json({ message: 'Price must be a non-negative number' });
+    if (!/^\d+$/.test(price) || parseInt(price, 10) <= 0) {
+        return res.status(400).json({ message: 'Price must be a positive integer' });
     }
 
     const newProduct = { id, name, price, category };
@@ -61,9 +59,8 @@ router.put('/:id', (req, res) => {
     }
 
     // Validate price
-    const priceAsNumber = parseFloat(price);
-    if (isNaN(priceAsNumber) || priceAsNumber < 0) {
-        return res.status(400).json({ message: 'Price must be a non-negative number' });
+    if (!/^\d+$/.test(price) || parseInt(price, 10) <= 0) {
+        return res.status(400).json({ message: 'Price must be a positive integer' });
     }
 
     products[productIndex] = { id: req.params.id, name, price, category };
@@ -83,4 +80,4 @@ router.delete('/:id', (req, res) => {
     res.status(204).send();
 });
 
-module.exports = router;
+module.exports = { products, router };

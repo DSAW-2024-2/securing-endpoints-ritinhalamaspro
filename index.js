@@ -3,7 +3,7 @@ const app = express();
 
 // Extract the router from users.js
 const { router: usersRoutes } = require('./routes/users');
-const productsRoutes = require('./routes/products');
+const {router: productsRoutes} = require('./routes/products');
 const ordersRoutes = require('./routes/orders');
 
 app.use(express.json()); // Middleware

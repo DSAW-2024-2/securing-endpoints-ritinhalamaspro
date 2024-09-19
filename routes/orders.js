@@ -1,8 +1,8 @@
+// Import users, products and router
 const express = require('express');
 const router = express.Router();
-
-// Import users and router
 const { users } = require('./users');
+const { products } = require('./products');
 
 let orders = [];
 
@@ -21,21 +21,25 @@ router.post('/', (req, res) => {
     }
 
     // Validate ID
-    const idAsNumber = parseInt(id, 10);
-    if (isNaN(idAsNumber) || idAsNumber <= 0 || orders.some(o => o.id === id)) {
+    if (!/^\d+$/.test(id) || parseInt(id, 10) <= 0 || orders.some(p => p.id === id)) {
         return res.status(400).json({ message: 'ID must be a unique positive integer' });
     }
 
     // Validate quantity
-    const quantityAsNumber = parseInt(quantity, 10);
-    if (isNaN(quantityAsNumber) || quantityAsNumber <= 0) {
-        return res.status(400).json({ message: 'Quantity must be a positive integer' });
+    if (!/^\d+$/.test(quantity) || parseInt(quantity, 10) <= 0) {
+        return res.status(400).json({ message: 'quantity must be a positive integer' });
     }
 
     // Validation for userId existence in users
     const userExists = users.find(u => u.id === userId);
     if (!userExists) {
         return res.status(400).json({ message: `User with ID ${userId} does not exist` });
+    }
+
+    // Validate productId existence in products
+    const productExists = products.find(p => p.id === productId);
+    if (!productExists) {
+        return res.status(400).json({ message: `Product with ID ${productId} does not exist` });
     }
 
     const newOrder = { id, userId, productId, quantity, status };
