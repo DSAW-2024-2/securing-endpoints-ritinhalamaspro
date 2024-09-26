@@ -1,28 +1,28 @@
 const express = require('express');
 const app = express();
 const jwt = require('jsonwebtoken');
-require('dotenv').config(); // Asegúrate de cargar las variables de entorno aquí
+require('dotenv').config(); // Load environment variables from .env file
 
-// Rutas
+// Import routes
 const { router: usersRoutes } = require('./routes/users');
 const { router: productsRoutes } = require('./routes/products');
 const ordersRoutes = require('./routes/orders');
-const loginRoutes = require('./routes/login'); // Aquí está la ruta de login
+const loginRoutes = require('./routes/login'); 
 
-app.use(express.json()); // Middleware para parsear JSON
+app.use(express.json()); // Parse incoming JSON requests
 
-// Usa las rutas
+// Protect these routes with the JWT authentication middleware
 app.use('/users', usersRoutes);
 app.use('/products', productsRoutes);
 app.use('/orders', ordersRoutes);
-app.use('/login', loginRoutes); // Aquí conectas la ruta de login
+app.use('/login', loginRoutes); // Public route for login
 
-// Ruta para manejar errores 404 (no encontrada)
+// Handle 404 errors for unknown routes
 app.use((req, res) => {
   res.status(404).json({ message: 'Path not found' });
 });
 
-// Inicia el servidor
+// Start the server on port 3000
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
